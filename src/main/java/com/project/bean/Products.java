@@ -1,6 +1,9 @@
 package com.project.bean;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -15,14 +18,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Accounts")
-public class Accounts implements Serializable{
+@Table(name = "Products")
+public class Products implements Serializable{
 	@Id
-	Integer idAccount;
-	String username;
-	String password;
-	String Email;
+	Integer idProduct;
+	String name;
+	Float price;
+	Integer quantity;
+	String image;
+	String contents;
+	Boolean status;
 	@ManyToOne
-	@JoinColumn(name = "Detail_customer")
-	Customers cumtomer;
+	@JoinColumn(name = "Type")
+	Producttype product_type;
 }

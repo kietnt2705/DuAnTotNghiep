@@ -1,11 +1,13 @@
 package com.project.bean;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,14 +17,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Accounts")
-public class Accounts implements Serializable{
+@Table(name = "Product type")
+public class Producttype implements Serializable{
 	@Id
-	Integer idAccount;
-	String username;
-	String password;
-	String Email;
-	@ManyToOne
-	@JoinColumn(name = "Detail_customer")
-	Customers cumtomer;
+	Integer idType;
+	String name;
+	@JsonIgnore
+	@OneToMany(mappedBy = "product_type")
+	List<Products> products;
 }
