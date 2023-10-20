@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "[Product type]")
+@Table(name = "Product_type")
 public class Producttype implements Serializable{
 	@Id
 	Integer idType;

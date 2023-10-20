@@ -21,7 +21,7 @@ public class Accounts implements Serializable{
 	Integer idAccount;
 	String username;
 	String password;
-	String Email;
+	String email;
 	@ManyToOne
 	@JoinColumn(name = "Detail_customer")
 	Customers cumtomer;

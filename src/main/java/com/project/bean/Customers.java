@@ -28,5 +28,5 @@ public class Customers implements Serializable{
 	String avatar;
 	@JsonIgnore
 	@OneToMany(mappedBy = "cumtomer")
-	List<Accounts> accounts;
+	List<Accounts> listtaccounts;
 }
