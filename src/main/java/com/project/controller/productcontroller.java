@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.bean.Producttype;
-import com.project.dao.ProducttypeDAO;
+import com.project.dao.Producttype_DAO;
 
 @RestController
 @RequestMapping("/index")
 public class productcontroller {
 	@Autowired
-	ProducttypeDAO dao;
+	Producttype_DAO dao;
 	@ResponseBody
 	@GetMapping("/a")
 	public List<Producttype> index() {
