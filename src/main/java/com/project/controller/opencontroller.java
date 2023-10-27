@@ -18,7 +18,7 @@ import com.project.dao.Producttype_DAO;
 public class opencontroller {
 	@GetMapping("/admin")
 	public String admin() {
-		return "/Admin/index";
+		return "Admin/index";
 	}
 	
 	@GetMapping("/user")

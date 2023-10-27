@@ -52,10 +52,10 @@
 			<artifactId>tomcat-embed-jasper</artifactId>
 		</dependency>
 <!--sử dụng tag c-->
-		<dependency>
+		<!--<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-		</dependency>
+		</dependency>-->
 <!--kết nối sql server-->
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
@@ -68,6 +68,11 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<!---->
+		<!--Thymeleaf-->
+		<dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-thymeleaf</artifactId>
+      </dependency>
 	</dependencies>
 
 	<build>
