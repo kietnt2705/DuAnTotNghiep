@@ -21,6 +21,12 @@ public class opencontroller {
 		return "Admin/index";
 	}
 	
+	@GetMapping("/admin/user")
+	public String adminuser() {
+		return "Admin/user";
+	}
+	
+	
 	@GetMapping("/user")
 	public String user() {
 		return "/User/index";
