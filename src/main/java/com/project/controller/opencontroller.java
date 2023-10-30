@@ -16,17 +16,33 @@ import com.project.dao.Producttype_DAO;
 @Controller
 @RequestMapping("/trangchu")
 public class opencontroller {
+
+//		Trang Admin
 	@GetMapping("/admin")
 	public String admin() {
 		return "Admin/index";
 	}
-	
+
+	@GetMapping("/admin/charts")
+	public String admincharts() {
+		return "Admin/charts";
+	}
+
 	@GetMapping("/admin/user")
 	public String adminuser() {
 		return "Admin/user";
 	}
+
+	@GetMapping("/admin/product")
+	public String adminproduct() {
+		return "Admin/product";
+	}
 	
-	
+	@GetMapping("/admin/order")
+	public String adminorder() {
+		return "Admin/order";
+	}
+// Trang User
 	@GetMapping("/user")
 	public String user() {
 		return "/User/index";
