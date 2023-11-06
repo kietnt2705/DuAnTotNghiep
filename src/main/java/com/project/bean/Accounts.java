@@ -3,10 +3,9 @@ package com.project.bean;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -23,19 +22,27 @@ import lombok.NoArgsConstructor;
 @Table(name = "Accounts")
 public class Accounts implements Serializable{
 	@Id
-	Integer idAccount;
+	Integer	idAccount;
+	@Column(nullable = false)
 	String username;
-	String password;
+	@Column(nullable = false)
 	String email;
-	@ManyToOne
-	@JoinColumn(name = "Detail_customer")
-	Customers cumtomer;
+	@Column(nullable = false)
+	String passwordhashed;
+	@Column(nullable = false)
+	String passwordsalt;
+	String fullname;
+	String address;
+	String phonenumber;
+	Boolean gender;
+	Boolean role;
+	String profilepicture;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "account")
-	List<Payment_history> List_pay_history;
+	List<Payment_history> list_payment_history;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "account3")
-	List<Cart> list_cart;
+	@OneToMany(mappedBy = "account2")
+	List<Shopping_cart> list_Shopping_cart;
 }

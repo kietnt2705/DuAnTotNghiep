@@ -29,16 +29,17 @@ public class Products implements Serializable{
 	Integer quantity;
 	String image;
 	String contents;
-	Boolean status;
+	String status;
+	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "Type")
-	Producttype product_type;
+	@JoinColumn(name = "TypeId")
+	Product_type Product_type;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "product2")
+	List<Shopping_cart> list_Shopping_cart2;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
-	List<Payment_history> list_pay_history2;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "product3")
-	List<Cart> list_cart2;
+	List<Payment_history> list_Payment_history;
 }
