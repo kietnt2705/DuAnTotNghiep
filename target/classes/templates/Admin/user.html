@@ -12,6 +12,7 @@
 
     <title>Admin - Quán lí người dùng</title>
 
+    
     <!-- Custom fonts for this template -->
     <link th:href="@{/Admin/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
     <link
@@ -26,7 +27,7 @@
 
 </head>
 
-<body id="page-top">
+<body id="page-top" ng-app="myApp" ng-controller="accountCtrl" ng-init="loadaccount()">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -227,7 +228,7 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
+                                        <img class="rounded-circle" th:src="@{/Admin/img/undraw_profile_1.svg}" alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div class="font-weight-bold">
@@ -238,7 +239,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
+                                        <img class="rounded-circle" th:src="@{/Admin/img/undraw_profile_2.svg}" alt="...">
                                         <div class="status-indicator"></div>
                                     </div>
                                     <div>
@@ -249,7 +250,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
+                                        <img class="rounded-circle" th:src="@{/Admin/img/undraw_profile_3.svg}" alt="...">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
                                     <div>
@@ -281,7 +282,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" th:src="@{/Admin/img/undraw_profile.svg}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -320,272 +321,127 @@
                     <div class="card card-primary">
                         <form>
                             <div class="card-body">
+                            <div class="form-group">
+                                    <label for="exampleInputEmail1">ID</label>
+                                    <input ng-model="Account.idAccount" type="input" class="form-control" id="exampleInputEmail1" disabled>
+                                </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Họ tên</label>
-                                    <input type="input" class="form-control" id="exampleInputEmail1"
+                                    <label for="exampleInputEmail1">Tài khoản</label>
+                                    <input ng-model="Account.username" type="input" class="form-control" id="exampleInputEmail1"
                                         placeholder="Nhập họ tên">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Số điện thoại</label>
-                                    <input type="input" class="form-control" id="exampleInputPassword1"
-                                        placeholder="Nhập số điện thoại">
+                                    <label for="exampleInputPassword1">Email</label>
+                                    <input ng-model="Account.email" type="email" class="form-control" id="exampleInputPassword1"
+                                        placeholder="Nhập Email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Mật khẩu</label>
+                                    <input ng-model="Account.passwordhashed" type="input" class="form-control" id="exampleInputPassword1"
+                                        placeholder="Nhập Mật khẩu">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Họ tên</label>
+                                    <input ng-model="Account.fullname" type="input" class="form-control" id="exampleInputPassword1"
+                                        placeholder="Nhập họ tên">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Địa chỉ</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1"
-                                        placeholder="Nhập địa chỉ"></textarea>
+                                    <input ng-model="Account.address" type="input" class="form-control" id="exampleInputPassword1"
+                                        placeholder="Nhập địa chỉ">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Số điện thoại</label>
+                                    <input ng-model="Account.phonenumber" type="input" class="form-control" id="exampleInputPassword1"
+                                        placeholder="Nhập số điện thoại">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Giới tính</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                            id="flexRadioDefault1" checked>
-                                        <label class="form-check-label" for="flexRadioDefault1">
-                                            Nam
-                                        </label>
+                                    <div class="form-group">
+                                        <div class="form-check-inline">
+                                            <input ng-model="Account.gender" ng-value="true" class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="flexRadioDefault1" checked>
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                Nam
+                                            </label>
+                                        </div>
+                                        <div class="form-check-inline">
+                                            <input ng-model="Account.gender" ng-value="false" class="form-check-input" type="radio" name="flexRadioDefault"
+                                                id="flexRadioDefault2">
+                                            <label class="form-check-label" for="flexRadioDefault2">
+                                                Nữ
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                            id="flexRadioDefault2">
-                                        <label class="form-check-label" for="flexRadioDefault2">
-                                            Nữ
-                                        </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Vai trò</label>
+                                    <div class="form-group">
+                                        <div class="form-check-inline">
+                                            <input ng-model="Account.role" ng-value="true" class="form-check-input" type="radio" name="Rolead"
+                                                id="flexRadioDefault1" checked>
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                Admin
+                                            </label>
+                                        </div>
+                                        <div class="form-check-inline">
+                                            <input ng-model="Account.role" ng-value="false" class="form-check-input" type="radio" name="Rolead"
+                                                id="flexRadioDefault2">
+                                            <label class="form-check-label" for="flexRadioDefault2">
+                                                User
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button ng-click="updateAccount()" type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </form>
                     </div>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Người dùng</h6>
-                        </div>
+                        <div class="card-header py-3 d-flex justify-content-between">
+							<h6 class="m-0 font-weight-bold text-primary">Người dùng</h6>
+							<div class="form-inline input-group w-25">
+								<input ng-model="findadaccount" type="text" class="form-control">
+								<div class="fw-bolder text-dark input-group-append"><div class="input-group-text" ng-model="findadaccount">search</div></div>
+							</div>
+						</div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Họ Tên</th>
+                                            <th>ID</th>
+                                            <th>Tài khoản</th>
+                                            <th>Email</th>
+                                            <th>Mật khẩu</th>
+                                            <th>Họ tên</th>
                                             <th>Địa chỉ</th>
-                                            <th>Giới tính</th>
                                             <th>Số điện thoại</th>
-                                            <th>Ngày đăng ký</th>
-                                            <th></th>
-                                            <th></th>
+                                            <th>Giới tính</th>
+                                            <th>Vai trò</th>
+                                            <th>Hình ảnh</th>
+                                            <th colspan="2">Tương tác</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>63</td>
-                                            <td>2011/07/25</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ashton Cox</td>
-                                            <td>Junior Technical Author</td>
-                                            <td>San Francisco</td>
-                                            <td>66</td>
-                                            <td>2009/01/12</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cedric Kelly</td>
-                                            <td>Senior Javascript Developer</td>
-                                            <td>Edinburgh</td>
-                                            <td>22</td>
-                                            <td>2012/03/29</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Airi Satou</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>33</td>
-                                            <td>2008/11/28</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Brielle Williamson</td>
-                                            <td>Integration Specialist</td>
-                                            <td>New York</td>
-                                            <td>61</td>
-                                            <td>2012/12/02</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Herrod Chandler</td>
-                                            <td>Sales Assistant</td>
-                                            <td>San Francisco</td>
-                                            <td>59</td>
-                                            <td>2012/08/06</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Rhona Davidson</td>
-                                            <td>Integration Specialist</td>
-                                            <td>Tokyo</td>
-                                            <td>55</td>
-                                            <td>2010/10/14</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Colleen Hurst</td>
-                                            <td>Javascript Developer</td>
-                                            <td>San Francisco</td>
-                                            <td>39</td>
-                                            <td>2009/09/15</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Sonya Frost</td>
-                                            <td>Software Engineer</td>
-                                            <td>Edinburgh</td>
-                                            <td>23</td>
-                                            <td>2008/12/13</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Jena Gaines</td>
-                                            <td>Office Manager</td>
-                                            <td>London</td>
-                                            <td>30</td>
-                                            <td>2008/12/19</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Quinn Flynn</td>
-                                            <td>Support Lead</td>
-                                            <td>Edinburgh</td>
-                                            <td>22</td>
-                                            <td>2013/03/03</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Charde Marshall</td>
-                                            <td>Regional Director</td>
-                                            <td>San Francisco</td>
-                                            <td>36</td>
-                                            <td>2008/10/16</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Haley Kennedy</td>
-                                            <td>Senior Marketing Designer</td>
-                                            <td>London</td>
-                                            <td>43</td>
-                                            <td>2012/12/18</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tatyana Fitzpatrick</td>
-                                            <td>Regional Director</td>
-                                            <td>London</td>
-                                            <td>19</td>
-                                            <td>2010/03/17</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Michael Silva</td>
-                                            <td>Marketing Designer</td>
-                                            <td>London</td>
-                                            <td>66</td>
-                                            <td>2012/11/27</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Paul Byrd</td>
-                                            <td>Chief Financial Officer (CFO)</td>
-                                            <td>New York</td>
-                                            <td>64</td>
-                                            <td>2010/06/09</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Gloria Little</td>
-                                            <td>Systems Administrator</td>
-                                            <td>New York</td>
-                                            <td>59</td>
-                                            <td>2009/04/10</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Bradley Greer</td>
-                                            <td>Software Engineer</td>
-                                            <td>London</td>
-                                            <td>41</td>
-                                            <td>2012/10/13</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Dai Rios</td>
-                                            <td>Personnel Lead</td>
-                                            <td>Edinburgh</td>
-                                            <td>35</td>
-                                            <td>2012/09/26</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Jenette Caldwell</td>
-                                            <td>Development Lead</td>
-                                            <td>New York</td>
-                                            <td>30</td>
-                                            <td>2011/09/03</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Yuri Berry</td>
-                                            <td>Chief Marketing Officer (CMO)</td>
-                                            <td>New York</td>
-                                            <td>40</td>
-                                            <td>2009/06/25</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Caesar Vance</td>
-                                            <td>Pre-Sales Support</td>
-                                            <td>New York</td>
-                                            <td>21</td>
-                                            <td>2011/12/12</td>
-                                            <td>Edit</td>
-                                            <td>Delete</td>
+                                        <tr ng-repeat="item in listaccount | filter : findadaccount">
+                                            <td>{{item.idAccount}}</td>
+                                            <td>{{item.username}}</td>
+                                            <td>{{item.email}}</td>
+                                            <td>{{item.passwordhashed}}</td>
+                                            <td>{{item.fullname}}</td>
+                                            <td>{{item.address}}</td>
+                                            <td>{{item.phonenumber}}</td>
+                                            <td>{{item.gender==true?'Male':'Female'}}</td>
+                                            <td>{{item.role==true?'Admin':'User'}}</td>
+                                            <td>{{item.profilepicture}}</td>
+                                            <td><button ng-click="editaccount(item)" class="btn btn-primary">Edit</button></td>
+                                            <td><button ng-click="deleteAccount(item)" class="btn btn-danger">Delete</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -640,6 +496,9 @@
         </div>
     </div>
 
+    <!-- Controller Admin Managent Product -->
+	<script th:src="@{https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js}"></script>
+    <script th:src="@{/Admin/js/admin.js}"></script> 
     <!-- Bootstrap core JavaScript-->
     <script th:src="@{/Admin/vendor/jquery/jquery.min.js}"></script>
     <script th:src="@{/Admin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>

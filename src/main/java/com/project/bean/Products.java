@@ -3,15 +3,16 @@ package com.project.bean;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Products")
 public class Products implements Serializable{
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer idProduct;
 	String name;
 	Float price;
@@ -30,9 +32,9 @@ public class Products implements Serializable{
 	String image;
 	String contents;
 	String status;
-	@JsonIgnore
+	 
 	@ManyToOne
-	@JoinColumn(name = "TypeId")
+	@JoinColumn(name = "type_id")
 	Product_type Product_type;
 	
 	@JsonIgnore
@@ -42,4 +44,5 @@ public class Products implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
 	List<Payment_history> list_Payment_history;
+
 }
