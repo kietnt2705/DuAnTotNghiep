@@ -8,7 +8,6 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>Admin - Quán lí sản phẩm</title>
-
 <!-- Custom fonts for this template -->
 <link th:href="@{/Admin/vendor/fontawesome-free/css/all.min.css}"
 	rel="stylesheet" type="text/css">
@@ -24,7 +23,7 @@
 	rel="stylesheet">
 </head>
 
-<body id="page-top" ng-app="myApp" ng-controller="adproCtrl" ng-init="loadproduct()">
+<body id="page-top" ng-app="myApp" ng-controller="adproCtrl" ng-init="loadproduct();loadproductype();">
 
 	<!-- Page Wrapper -->
 	<div id="wrapper">
@@ -307,9 +306,23 @@
 					<h1 class="h3 mb-2 text-gray-800">Quản lí sản phẩm</h1>
 
 					<div class="card card-primary">
-						<img id="imageInput" style="min-width: 100px; min-height: 100px; max-width: 500px; max-height: 500px; object-fit: scale-down;" src="" alt="">
+						
 						<form >
 							<div class="card-body">
+								<div class="form-group">
+									<img id="imageInput" style="min-width: 100px; min-height: 100px; max-width: 500px; max-height: 500px; object-fit: scale-down;" src="" alt="">
+								</div>
+								<div class="form-group">
+									<div class="input-group">
+										<div class="custom-file">
+											<input type="file" ng-model="Products.image" id="file-input-upload"
+												class="custom-file-input" accept="image/*"
+												onchange="loadFile(event)"> <label
+												class="custom-file-label" for="exampleInputFile">Choose
+												file</label>
+										</div>
+									</div>
+								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1">Mã sản phẩm</label> <input
 										type="input" class="form-control" id="exampleInputEmail1"
@@ -319,6 +332,10 @@
 									<label for="exampleInputEmail1">Tên sản phẩm</label> <input
 										type="input" class="form-control" id="exampleInputEmail1"
 										placeholder="Nhập tên sản phẩm" ng-model="Products.name">
+								</div>
+								<div class="form-group">
+									<label for="exampleInputEmail1">Loại sản phẩm</label> 
+									<select class="form-control" ng-model="Products.Product_type" ng-options="item as item.nametype for item in lisypeoductype track by item.idType"></select>
 								</div>
 								<div class="form-group">
 									<label for="exampleInputPassword1">Số lượng</label> <input
@@ -336,24 +353,9 @@
 										placeholder="Nhập mô tả" ng-model="Products.contents"></textarea>
 								</div>
 								<div class="form-group">
-									<label for="exampleInputEmail1">Trạng thái</label> <input
-										type="input" class="form-control" id="exampleInputEmail1"
-										placeholder="Nhập trạng thái" ng-model="Products.status">
-								</div>
-								<div class="form-group">
-									<label for="exampleInputFile">Hình ảnh</label>
-									<div class="input-group">
-										<div class="custom-file">
-											<input type="file" ng-model="Products.image" id="file-input-upload"
-												class="custom-file-input" accept="image/*"
-												onchange="loadFile(event)"> <label
-												class="custom-file-label" for="exampleInputFile">Choose
-												file</label>
-										</div>
-										<div class="input-group-append">
-											<span class="input-group-text">Upload</span>
-										</div>
-									</div>
+									<label for="exampleInputEmail1">Ngày tạo</label> <input
+										 class="form-control" id="exampleInputEmail1"
+										placeholder="Nhập Ngày" ng-model="Products.datecreate | date:'dd-MM-yyyy'" disabled>
 								</div>
 							</div>
 
@@ -386,8 +388,8 @@
 											<th>Số lượng</th>
 											<th>Ảnh</th>
 											<th>Mô tả</th>
-											<th>Trạng thái</th>
 											<th>Loại</th>
+											<th>Ngày tạo</th>
 											<th colspan="2">Tương tác</th>
 										</tr>
 									</thead>
@@ -399,8 +401,8 @@
 											<td>{{item.quantity}}</td>
 											<td>{{item.image}}</td>
 											<td>{{item.contents}}</td>
-											<td>{{item.status}}</td>
-											<td>{{item.Product_type}}</td>
+											<td>{{item.product_type.nametype}}</td>
+											<td>{{item.datecreate}}</td>
 											<td><button class="btn btn-primary"
 									ng-click="editproduct(item)">Edit</button></td>
 											<td><button class="btn btn-danger"
@@ -482,18 +484,4 @@
 	<script th:src="@{/Admin/js/demo/datatables-demo.js}"></script>
 
 </body>
-<script>
-	(
-		loadFile = function(event) {
-			var output = document.getElementById('imageInput');
-			var reader = new FileReader();
-			reader.onload = function() {
-				output.src = reader.result;
-			}
-			/*var file = document.querySelector('#file-input-upload');*/
-			/*console.log(event.target.files[0]);*/
-			reader.readAsDataURL(event.target.files[0]);
-		}
-	)
-</script>
 </html>

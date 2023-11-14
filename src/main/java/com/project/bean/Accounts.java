@@ -34,6 +34,7 @@ public class Accounts implements Serializable{
 	Boolean gender;
 	Boolean role;
 	String profilepicture;
+	Boolean deletestatus = true;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "account")

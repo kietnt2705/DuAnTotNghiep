@@ -1,8 +1,12 @@
 package com.project.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -13,6 +17,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,8 +37,13 @@ public class Products implements Serializable{
 	Integer quantity;
 	String image;
 	String contents;
-	String status;
+	Boolean deletestatus = true;
 	 
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	Date datecreate = new Date();
+	
+	
 	@ManyToOne
 	@JoinColumn(name = "type_id")
 	Product_type Product_type;
