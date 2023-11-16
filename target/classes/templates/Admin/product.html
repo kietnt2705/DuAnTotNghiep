@@ -8,6 +8,8 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>Admin - Quán lí sản phẩm</title>
+<link href="https://cdn.jsdelivr.net/npm/fastbootstrap@2.0.0/dist/css/fastbootstrap.min.css" rel="stylesheet" integrity="sha256-EkS1lBVeD1Dv7HGBICgtEPKeIz4ffoKbo5gRiPvD6/8=" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/fastbootstrap@2.0.0/dist/js/fastbootstrap.min.js" integrity="sha256-o0tNXN7ia0O9G0qNbrzBkEEiQTv+GeW5EO4LjnfDkZk=" crossorigin="anonymous"></script>
 <!-- Custom fonts for this template -->
 <link th:href="@{/Admin/vendor/fontawesome-free/css/all.min.css}"
 	rel="stylesheet" type="text/css">
@@ -310,12 +312,12 @@
 						<form >
 							<div class="card-body">
 								<div class="form-group">
-									<img id="imageInput" style="min-width: 100px; min-height: 100px; max-width: 500px; max-height: 500px; object-fit: scale-down;" src="" alt="">
+									<img id="imageInput" th:src="@{\Admin\img\{{Products.image}}}" style="min-width: 100px; min-height: 100px; max-width: 500px; max-height: 500px; object-fit: scale-down;" src="" alt="">
 								</div>
 								<div class="form-group">
 									<div class="input-group">
 										<div class="custom-file">
-											<input type="file" ng-model="Products.image" id="file-input-upload"
+											<input type="file" ng-model="Products.image" id="fileInput"
 												class="custom-file-input" accept="image/*"
 												onchange="loadFile(event)"> <label
 												class="custom-file-label" for="exampleInputFile">Choose
@@ -335,7 +337,11 @@
 								</div>
 								<div class="form-group">
 									<label for="exampleInputEmail1">Loại sản phẩm</label> 
-									<select class="form-control" ng-model="Products.Product_type" ng-options="item as item.nametype for item in lisypeoductype track by item.idType"></select>
+									<select ng-model="Products.product_type" 
+        ng-options="type as type.nametype for type in lisypeoductype track by type.idType">
+</select>
+
+
 								</div>
 								<div class="form-group">
 									<label for="exampleInputPassword1">Số lượng</label> <input
@@ -361,16 +367,24 @@
 
 							<div class="card-footer">
 								<button class="btn btn-primary"
-									ng-click="updateProduct()">Submit</button>
+									ng-click="updateProduct();upload()">Submit</button>
 							</div>
 						</form>
 					</div>
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
-						<div class="card-header py-3 d-flex justify-content-between">
-							<h6 class="m-0 font-weight-bold text-primary">Sản phẩm</h6>
-							<div class="form-inline input-group w-25">
+						<div class="row card-header py-3 d-flex justify-content-between">
+							<h6 class="col align-self-center m-0 font-weight-bold text-primary">Sản phẩm</h6>
+							<div class="container col align-self-center fs-5">
+								<div class="d-flex ">
+									<div class="form-switch form-check ms-2">
+										<input ng-model="tablecheck" ng-change="changetable()" type="checkbox" class="form-check-input" id="site_state">
+									</div>
+									<label for="site_state" class="form-check-label">Products Deleted</label>
+								</div>
+							</div>
+							<div class="col align-self-center form-inline input-group w-25">
 								<input ng-model="findadproduct" type="text" class="form-control">
 								<div class="fw-bolder text-dark input-group-append"><div class="input-group-text" ng-model="findadproduct">search</div></div>
 							</div>
@@ -404,9 +418,9 @@
 											<td>{{item.product_type.nametype}}</td>
 											<td>{{item.datecreate}}</td>
 											<td><button class="btn btn-primary"
-									ng-click="editproduct(item)">Edit</button></td>
+									ng-click="tablecheck==true?restoreProduct(item):editproduct(item)">{{tablecheck==true?'Restore':'Edit'}}</button></td>
 											<td><button class="btn btn-danger"
-									ng-click="deleteProduct(item)">Delete</button></td>
+									ng-click="deleteProduct(item)" ng-disabled="tablecheck" >Delete</button></td>
 										</tr>
 									</tbody>
 								</table>

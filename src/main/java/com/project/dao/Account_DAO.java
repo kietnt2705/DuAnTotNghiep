@@ -28,4 +28,8 @@ public interface Account_DAO extends JpaRepository<Accounts, Integer>{
 			+ "SET                DeleteStatus = 1\r\n"
 			+ "WHERE        (Id_account = ?1)",nativeQuery = true)
 	public void restore_Account(Integer AccountId);
+	
+	@Query(value = "SELECT COUNT(Id_account) as count_accounts\r\n"
+			+ "FROM Accounts",nativeQuery = true)
+	public Integer get_count_accounts();
 }

@@ -20,7 +20,7 @@
     <link th:href="@{/Admin/css/sb-admin-2.min.css}" rel="stylesheet">
 </head>
 
-<body id="page-top">
+<body id="page-top" ng-app="myApp" ng-controller="staCtrl" ng-init="countstatic()">
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -308,42 +308,12 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Thống kê</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Tạo báo cáo</a>
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-6 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Doanh thu (Tháng)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-6 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Doanh thu (Ngày)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
 
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-4 col-md-6 mb-4">
@@ -353,7 +323,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Người dùng</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">15,000</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{count_number.count_account}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -368,7 +338,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 Sản phẩm</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">115,000</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{count_number.count_product}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -383,7 +353,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                                 Đơn hàng</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">50,000</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{count_number.count_order}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -511,7 +481,9 @@
                     </div>
                 </div>
             </div>
-
+<!-- Controller Admin Managent Product -->
+	<script th:src="@{https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js}"></script>
+	 <script th:src="@{/Admin/js/admin.js}"></script> 
             <!-- Bootstrap core JavaScript-->
             <script th:src="@{/Admin/vendor/jquery/jquery.min.js}"></script>
     <script th:src="@{/Admin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
