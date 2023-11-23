@@ -42,4 +42,9 @@ public class opencontroller {
 	public String user() {
 		return "/User/index";
 	}
+	
+	@GetMapping("/test")
+	public String test() {
+		return "/Test/test";
+	}
 }
