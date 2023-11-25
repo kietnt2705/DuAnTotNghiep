@@ -37,6 +37,13 @@ public class opencontroller {
 	public String adminorder() {
 		return "Admin/order";
 	}
+	
+	// Trang khuyến mãi
+		@GetMapping("/admin/voucher")
+		public String voucher() {
+			return "Admin/voucher";
+		}
+		
 // Trang User
 	@GetMapping("/user")
 	public String user() {

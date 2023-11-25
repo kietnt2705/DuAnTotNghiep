@@ -55,5 +55,9 @@ public class Products implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
 	List<Payment_history> list_Payment_history;
-
+	
+	@ManyToOne
+	@JoinColumn(name = "voucher_id")
+	Voucher voucher;
+	
 }

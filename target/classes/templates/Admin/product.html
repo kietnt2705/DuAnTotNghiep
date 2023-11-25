@@ -82,7 +82,11 @@
 
 			<!-- Divider -->
 			<hr class="sidebar-divider d-none d-md-block">
-
+			
+			<li class="nav-item"><a class="nav-link"
+				href="/trangchu/admin/voucher"> <i class="fas fa-fw fa-table"></i>
+					<span>Quản lí Khuyến mãi</span></a></li>
+					
 			<!-- Sidebar Toggler (Sidebar) -->
 			<div class="text-center d-none d-md-inline">
 				<button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -105,69 +109,71 @@
 					<!-- Page Heading -->
 					<h1 class="h3 mb-2 text-gray-800">Quản lí sản phẩm</h1>
 
-					<div class="card card-primary">
+					<div class="mb-3">
+						<div class="card card-primary mx-auto col-8 p-0">
 						
-						<form >
-							<div class="card-body">
-								<div class="form-group">
-									<img id="imageInput" th:src="@{\Admin\img\{{Products.image}}}" style="min-width: 100px; min-height: 100px; max-width: 500px; max-height: 500px; object-fit: scale-down;" src="" alt="">
-								</div>
-								<div class="form-group">
-									<div class="input-group">
-										<div class="custom-file">
-											<input type="file" ng-model="Products.image" id="fileInput"
-												class="custom-file-input" accept="image/*"
-												onchange="loadFile(event)"> <label
-												class="custom-file-label" for="exampleInputFile">Choose
-												file</label>
+							<form >
+								<div class="card-body">
+									<div class="form-group text-center">
+										<img id="imageInput" th:src="@{\Admin\img\{{Products.image}}}" style="min-width: 100px; min-height: 100px; max-width: 500px; max-height: 500px; object-fit: scale-down;" src="" alt="">
+									</div>
+									<div class="form-group">
+										<div class="input-group">
+											<div class="custom-file">
+												<input type="file" ng-model="Products.image" id="fileInput"
+													class="custom-file-input" accept="image/*"
+													onchange="loadFile(event)"> <label
+													class="custom-file-label" for="exampleInputFile">Choose
+													file</label>
+											</div>
 										</div>
 									</div>
+									<div class="form-group">
+										<label for="exampleInputEmail1">Mã sản phẩm</label> <input
+											type="input" class="form-control" id="exampleInputEmail1"
+											placeholder="Nhập mã sản phẩm" ng-model="Products.idProduct" disabled>
+									</div>
+									<div class="form-group">
+										<label for="exampleInputEmail1">Tên sản phẩm</label> <input
+											type="input" class="form-control" id="exampleInputEmail1"
+											placeholder="Nhập tên sản phẩm" ng-model="Products.name">
+									</div>
+									<div class="form-group">
+										<label for="exampleInputEmail1">Loại sản phẩm</label> 
+										<select ng-model="Products.product_type" 
+			ng-options="type as type.nametype for type in lisypeoductype track by type.idType">
+	</select>
+	
+	
+									</div>
+									<div class="form-group">
+										<label for="exampleInputPassword1">Số lượng</label> <input
+											type="input" class="form-control" id="exampleInputPassword1"
+											placeholder="Nhập số lượng" ng-model="Products.quantity">
+									</div>
+									<div class="form-group">
+										<label for="exampleInputPassword1">Giá</label> <input
+											type="input" class="form-control" id="exampleInputPassword1"
+											placeholder="Nhập giá" ng-model="Products.price">
+									</div>
+									<div class="form-group">
+										<label for="exampleInputPassword1">Mô tả</label>
+										<textarea class="form-control" id="exampleFormControlTextarea1"
+											placeholder="Nhập mô tả" ng-model="Products.contents"></textarea>
+									</div>
+									<div class="form-group">
+										<label for="exampleInputEmail1">Ngày tạo</label> <input
+											 class="form-control" id="exampleInputEmail1"
+											placeholder="Nhập Ngày" ng-model="Products.datecreate | date:'dd-MM-yyyy'" disabled>
+									</div>
 								</div>
-								<div class="form-group">
-									<label for="exampleInputEmail1">Mã sản phẩm</label> <input
-										type="input" class="form-control" id="exampleInputEmail1"
-										placeholder="Nhập mã sản phẩm" ng-model="Products.idProduct" disabled>
+	
+								<div class="card-footer text-center">
+									<button class="btn btn-primary"
+										ng-click="updateProduct();upload()">Submit</button>
 								</div>
-								<div class="form-group">
-									<label for="exampleInputEmail1">Tên sản phẩm</label> <input
-										type="input" class="form-control" id="exampleInputEmail1"
-										placeholder="Nhập tên sản phẩm" ng-model="Products.name">
-								</div>
-								<div class="form-group">
-									<label for="exampleInputEmail1">Loại sản phẩm</label> 
-									<select ng-model="Products.product_type" 
-        ng-options="type as type.nametype for type in lisypeoductype track by type.idType">
-</select>
-
-
-								</div>
-								<div class="form-group">
-									<label for="exampleInputPassword1">Số lượng</label> <input
-										type="input" class="form-control" id="exampleInputPassword1"
-										placeholder="Nhập số lượng" ng-model="Products.quantity">
-								</div>
-								<div class="form-group">
-									<label for="exampleInputPassword1">Giá</label> <input
-										type="input" class="form-control" id="exampleInputPassword1"
-										placeholder="Nhập giá" ng-model="Products.price">
-								</div>
-								<div class="form-group">
-									<label for="exampleInputPassword1">Mô tả</label>
-									<textarea class="form-control" id="exampleFormControlTextarea1"
-										placeholder="Nhập mô tả" ng-model="Products.contents"></textarea>
-								</div>
-								<div class="form-group">
-									<label for="exampleInputEmail1">Ngày tạo</label> <input
-										 class="form-control" id="exampleInputEmail1"
-										placeholder="Nhập Ngày" ng-model="Products.datecreate | date:'dd-MM-yyyy'" disabled>
-								</div>
-							</div>
-
-							<div class="card-footer text-center">
-								<button class="btn btn-primary"
-									ng-click="updateProduct();upload()">Submit</button>
-							</div>
-						</form>
+							</form>
+						</div>
 					</div>
 
 					<!-- DataTales Example -->
