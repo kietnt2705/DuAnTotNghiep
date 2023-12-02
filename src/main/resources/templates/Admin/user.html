@@ -123,28 +123,9 @@
                     <div class="card card-primary mx-auto col-8 p-0">
                         <form>
                             <div class="card-body">
-                                <div class="form-group text-center">
-									<img id="imageInput" th:src="@{\Admin\img\{{Account.profilepicture}}}" style="min-width: 100px; min-height: 100px; max-width: 500px; max-height: 500px; object-fit: scale-down;" alt="">
-								</div>
-								<div class="form-group">
-									<div class="input-group">
-										<div class="custom-file">
-											<input type="file" ng-model="Account.profilepicture" id="fileInput"
-												class="custom-file-input" accept="image/*"
-												onchange="loadFile(event)"> <label
-												class="custom-file-label" for="exampleInputFile">Choose
-												file</label>
-										</div>
-									</div>
-								</div>
                             <div class="form-group">
                                     <label for="exampleInputEmail1">ID</label>
                                     <input ng-model="Account.idAccount" type="input" class="form-control" id="exampleInputEmail1" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Tài khoản</label>
-                                    <input ng-model="Account.username" type="input" class="form-control" id="exampleInputEmail1"
-                                        placeholder="Nhập họ tên">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Email</label>
@@ -241,7 +222,6 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Tài khoản</th>
                                             <th>Email</th>
                                             <th>Mật khẩu</th>
                                             <th>Họ tên</th>
@@ -249,14 +229,12 @@
                                             <th>Số điện thoại</th>
                                             <th>Giới tính</th>
                                             <th>Vai trò</th>
-                                            <th>Hình ảnh</th>
                                             <th colspan="2">Tương tác</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="item in listaccount | filter : findadaccount">
                                             <td>{{item.idAccount}}</td>
-                                            <td>{{item.username}}</td>
                                             <td>{{item.email}}</td>
                                             <td>{{item.passwordhashed}}</td>
                                             <td>{{item.fullname}}</td>
@@ -264,7 +242,6 @@
                                             <td>{{item.phonenumber}}</td>
                                             <td>{{item.gender==true?'Male':'Female'}}</td>
                                             <td>{{item.role==true?'Admin':'User'}}</td>
-                                            <td>{{item.profilepicture}}</td>
                                             <td><button ng-click="tablecheck2==true?restoreAccount(item):editaccount(item)" class="btn btn-primary">{{tablecheck2==true?'Restore':'Edit'}}</button></td>
                                             <td><button ng-click="deleteAccount(item)" class="btn btn-danger" ng-disabled="tablecheck2">Delete</button></td>
                                         </tr>
@@ -279,16 +256,6 @@
 
             </div>
             <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->

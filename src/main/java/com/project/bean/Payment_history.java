@@ -26,6 +26,7 @@ Integer idProductAccount;
 Integer quantity;
 Date timepayment;
 String address;
+String statuspayment;
 
 @ManyToOne
 @JoinColumn(name = "Detail_account")

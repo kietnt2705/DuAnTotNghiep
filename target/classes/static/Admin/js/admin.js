@@ -16,7 +16,7 @@ app.controller('adproCtrl', function($scope, $http) {
 		product_type: {},
 		list_Shopping_cart2: null,
 		list_Payment_history: null,
-		voucher:{}
+		voucher: {}
 	};
 
 	(
@@ -143,7 +143,6 @@ app.controller('adproCtrl', function($scope, $http) {
 app.controller('accountCtrl', function($scope, $http) {
 	$scope.Account = {
 		idAccount: null,
-		username: '',
 		email: '',
 		passwordhashed: '',
 		fullname: '',
@@ -151,7 +150,6 @@ app.controller('accountCtrl', function($scope, $http) {
 		phonenumber: '',
 		gender: false,
 		role: false,
-		profilepicture: '',
 		deletestatus: false,
 		list_payment_history: null,
 		list_Shopping_cart: null
@@ -214,21 +212,6 @@ app.controller('accountCtrl', function($scope, $http) {
 		$scope.Account = account;
 	};
 
-	(
-		loadFile = function(event) {
-
-			var reader = new FileReader();
-			reader.onload = function() {
-				var output = document.getElementById('imageInput');
-				output.src = reader.result;
-			}
-			/*var file = document.querySelector('#file-input-upload');*/
-			/*console.log(event.target.files[0]);*/
-			$scope.Account.profilepicture = event.target.files[0].name;
-			reader.readAsDataURL(event.target.files[0]);
-		}
-	)
-
 	$scope.changetable = () => {
 		if ($scope.tablecheck2 == true) {
 			$scope.loadaccountdelete();
@@ -238,25 +221,11 @@ app.controller('accountCtrl', function($scope, $http) {
 		}
 	}
 
-	$scope.upload = function() {
-		const fileInput = document.querySelector('#fileInput');
-		var formdata = new FormData();
-		formdata.append("file", fileInput.files[0]); //ảnh 
-
-		var requestOptions = {
-			method: 'POST',
-			body: formdata,
-			redirect: 'follow'
-		};
-
-		fetch("/admin/api/uploadfile", requestOptions)
-			.then(response => console.log(response))
-			.catch(error => console.error('error', error));
-	}
 });
 
 app.controller('orderCtrl', function($scope, $http) {
 	$scope.listorders = [];
+	$scope.listitems = [];
 	$scope.loadorders = function() {
 		$http.get('/admin/api/getorders')
 			.then(function(response) {
@@ -265,6 +234,80 @@ app.controller('orderCtrl', function($scope, $http) {
 				// Xử lý lỗi nếu yêu cầu xóa không thành công.
 				console.error(error);
 			});
+	};
+	
+	$scope.setordersstatus = function(nametrangthai) {
+		for (var i = 0; i < $scope.listitems.length; i++) {
+				$scope.listitems[i].statuspayment =nametrangthai;
+			}
+		$http.post("/admin/api/setorderstatus", $scope.listitems)
+		.then(function(response) {
+			$scope.loadorders();
+			$scope.listitems = [];
+		});
+	};
+	
+	$scope.trangthai = function(trangthai) {
+		if (trangthai == 'huybo') {
+			return {
+				value: 'Hủy bỏ',
+				style: {
+					'background-color': 'darkred'
+				}
+			}
+		} else if (trangthai == 'danggiao') {
+			return {
+				value: 'Đang giao',
+				style: {
+					'background-color': 'darkturquoise'
+				}
+			}
+		} else if (trangthai == 'dagiao') {
+			return {
+				value: 'Đã giao',
+				style: {
+					'background-color': 'darkgreen'
+				}
+			}
+		} else{
+			return {
+				value: 'Chờ xác nhận',
+				style: {
+					'background-color': 'slategray'
+				}
+			}
+		}
+	}
+
+	$scope.checkalllist = function() {
+		if ($scope.checkall) {
+			$scope.listitems = angular.copy($scope.listorders);
+		} else {
+			$scope.listitems = [];
+		}
+		angular.forEach($scope.listorders, function(item) {
+			item.checked = $scope.checkall;
+		});
+	}
+
+	$scope.toggleItem = function(item) {
+		if (item.checked == true) {
+			// Thêm vào mảng nếu chưa tồn tại và được chọn
+			$scope.listitems.push(item);
+		} else {
+			for (var i = 0; i < $scope.listitems.length; i++) {
+				if ($scope.listitems[i].idProductAccount == item.idProductAccount) {
+					var index = i;
+					break;
+				}
+			}
+			$scope.listitems.splice(index, 1);
+		}
+		console.log($scope.listitems);
+	};
+
+	$scope.isChecked = function(item) {
+		return !$scope.checkall || item.checked;
 	};
 });
 
@@ -288,174 +331,174 @@ app.controller('staCtrl', function($scope, $http) {
 
 app.controller('chartCtrl', function($scope, $http) {
 
-	$scope.auto = function(){
+	$scope.auto = function() {
 		var barcolors = [
-    'rgb(78, 121, 167)',
-    'rgb(242, 142, 43)',
-    'rgb(225, 87, 89)',
-    'rgb(118, 183, 178)',
-    'rgb(89, 161, 79)',
-    'rgb(237, 201, 72)',
-    'rgb(176, 122, 161)',
-    'rgb(255, 157, 167)',
-    'rgb(156, 117, 95)',
-    'rgb(186, 176, 172)',
-    'rgb(106, 61, 154)',
-    'rgb(97, 114, 155)',
-    'rgb(162, 108, 69)',
-    'rgb(106, 130, 108)',
-    'rgb(147, 112, 219)',
-    'rgb(132, 159, 188)',
-    'rgb(189, 103, 107)',
-    'rgb(180, 149, 90)',
-    'rgb(90, 154, 154)',
-    'rgb(134, 106, 149)'
-];
-// Khởi tạo chartData
-    $scope.chartData = [];
+			'rgb(78, 121, 167)',
+			'rgb(242, 142, 43)',
+			'rgb(225, 87, 89)',
+			'rgb(118, 183, 178)',
+			'rgb(89, 161, 79)',
+			'rgb(237, 201, 72)',
+			'rgb(176, 122, 161)',
+			'rgb(255, 157, 167)',
+			'rgb(156, 117, 95)',
+			'rgb(186, 176, 172)',
+			'rgb(106, 61, 154)',
+			'rgb(97, 114, 155)',
+			'rgb(162, 108, 69)',
+			'rgb(106, 130, 108)',
+			'rgb(147, 112, 219)',
+			'rgb(132, 159, 188)',
+			'rgb(189, 103, 107)',
+			'rgb(180, 149, 90)',
+			'rgb(90, 154, 154)',
+			'rgb(134, 106, 149)'
+		];
+		// Khởi tạo chartData
+		$scope.chartData = [];
 
-    // Thực hiện GET request đến API
-    $http.get('/admin/api/chart/countproductyear')
-        .then(function (response) {
-            // Xử lý dữ liệu nhận được từ API
-            var rawData = response.data;
+		// Thực hiện GET request đến API
+		$http.get('/admin/api/chart/countproductyear')
+			.then(function(response) {
+				// Xử lý dữ liệu nhận được từ API
+				var rawData = response.data;
 
-            // Chuyển đổi định dạng dữ liệu
-            $scope.chartData = rawData.map(function (item) {
-                return [item[0], item[1]];
-            });
+				// Chuyển đổi định dạng dữ liệu
+				$scope.chartData = rawData.map(function(item) {
+					return [item[0], item[1]];
+				});
 
-            // Gọi hàm vẽ biểu đồ
-            drawChart();
-        })
-        .catch(function (error) {
-            console.error('Error:', error);
-        });
+				// Gọi hàm vẽ biểu đồ
+				drawChart();
+			})
+			.catch(function(error) {
+				console.error('Error:', error);
+			});
 
-    // Hàm vẽ biểu đồ
-    function drawChart() {
-        var labels = $scope.chartData.map(function (item) {
-            return item[1].toString(); // Hoặc sử dụng String(item[0]) để chắc chắn có kiểu chuỗi
-        });
-        var values = $scope.chartData.map(function (item) {
-            return item[0];
-        });
+		// Hàm vẽ biểu đồ
+		function drawChart() {
+			var labels = $scope.chartData.map(function(item) {
+				return item[1].toString(); // Hoặc sử dụng String(item[0]) để chắc chắn có kiểu chuỗi
+			});
+			var values = $scope.chartData.map(function(item) {
+				return item[0];
+			});
 
-        // Sử dụng thư viện vẽ biểu đồ (ví dụ: Chart.js)
-        var ctx = document.getElementById('myChartcountproductyear').getContext('2d');
-        var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Sample Data',
-                data: values,
-                backgroundColor: barcolors,
-                borderColor: 'black',
-                borderWidth: 1,
-                borderDash: [5, 5]
-            }]
-        },
-        options: {
-            maintainAspectRatio: false, 
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    grid: {
-                        display: false // Ẩn đường kẻ ngang
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                }
-            },
-            plugins: {
-                title: {
-                    display: false,
-                    text: 'Column Chart Example',
-                    position: 'bottom'
-                },
-                legend: {
-                    display: false
-                }
-            }
-        }
-    });
-    }
+			// Sử dụng thư viện vẽ biểu đồ (ví dụ: Chart.js)
+			var ctx = document.getElementById('myChartcountproductyear').getContext('2d');
+			var myChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: labels,
+					datasets: [{
+						label: 'Sample Data',
+						data: values,
+						backgroundColor: barcolors,
+						borderColor: 'black',
+						borderWidth: 1,
+						borderDash: [5, 5]
+					}]
+				},
+				options: {
+					maintainAspectRatio: false,
+					scales: {
+						x: {
+							beginAtZero: true,
+							grid: {
+								display: false // Ẩn đường kẻ ngang
+							}
+						},
+						y: {
+							beginAtZero: true,
+						}
+					},
+					plugins: {
+						title: {
+							display: false,
+							text: 'Column Chart Example',
+							position: 'bottom'
+						},
+						legend: {
+							display: false
+						}
+					}
+				}
+			});
+		}
 	}
-	
-	$scope.auto2 = function(){
+
+	$scope.auto2 = function() {
 		var pieChartColors = [
-    'rgb(78, 121, 167)',
-    'rgb(242, 142, 43)',
-    'rgb(225, 87, 89)',
-    'rgb(118, 183, 178)',
-    'rgb(89, 161, 79)',
-    'rgb(237, 201, 72)',
-    'rgb(176, 122, 161)',
-    'rgb(255, 157, 167)',
-    'rgb(156, 117, 95)',
-    'rgb(186, 176, 172)',
-    'rgb(106, 61, 154)',
-    'rgb(97, 114, 155)',
-    'rgb(162, 108, 69)',
-    'rgb(106, 130, 108)',
-    'rgb(147, 112, 219)',
-    'rgb(132, 159, 188)',
-    'rgb(189, 103, 107)',
-    'rgb(180, 149, 90)',
-    'rgb(90, 154, 154)',
-    'rgb(134, 106, 149)'
-];
+			'rgb(78, 121, 167)',
+			'rgb(242, 142, 43)',
+			'rgb(225, 87, 89)',
+			'rgb(118, 183, 178)',
+			'rgb(89, 161, 79)',
+			'rgb(237, 201, 72)',
+			'rgb(176, 122, 161)',
+			'rgb(255, 157, 167)',
+			'rgb(156, 117, 95)',
+			'rgb(186, 176, 172)',
+			'rgb(106, 61, 154)',
+			'rgb(97, 114, 155)',
+			'rgb(162, 108, 69)',
+			'rgb(106, 130, 108)',
+			'rgb(147, 112, 219)',
+			'rgb(132, 159, 188)',
+			'rgb(189, 103, 107)',
+			'rgb(180, 149, 90)',
+			'rgb(90, 154, 154)',
+			'rgb(134, 106, 149)'
+		];
 
-		
-// Khởi tạo chartData
-    $scope.chartData = [];
 
-    // Thực hiện GET request đến API
-    $http.get('/admin/api/chart/countproductmonthwhere')
-        .then(function (response) {
-            // Xử lý dữ liệu nhận được từ API
-            var rawData = response.data;
+		// Khởi tạo chartData
+		$scope.chartData = [];
 
-            // Chuyển đổi định dạng dữ liệu
-            $scope.chartData = rawData.map(function (item) {
-                return [item[0], item[1]];
-            });
+		// Thực hiện GET request đến API
+		$http.get('/admin/api/chart/countproductmonthwhere')
+			.then(function(response) {
+				// Xử lý dữ liệu nhận được từ API
+				var rawData = response.data;
 
-            // Gọi hàm vẽ biểu đồ
-            drawChart();
-        })
-        .catch(function (error) {
-            console.error('Error:', error);
-        });
+				// Chuyển đổi định dạng dữ liệu
+				$scope.chartData = rawData.map(function(item) {
+					return [item[0], item[1]];
+				});
 
-    // Hàm vẽ biểu đồ
-    function drawChart() {
-        var labels = $scope.chartData.map(function (item) {
-            return item[1].toString(); // Hoặc sử dụng String(item[0]) để chắc chắn có kiểu chuỗi
-        });
-        var values = $scope.chartData.map(function (item) {
-            return item[0];
-        });
+				// Gọi hàm vẽ biểu đồ
+				drawChart();
+			})
+			.catch(function(error) {
+				console.error('Error:', error);
+			});
 
-        // Sử dụng thư viện vẽ biểu đồ (ví dụ: Chart.js)
-        var ctx = document.getElementById('myPieChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Sample Data',
-                data: values,
-                backgroundColor: pieChartColors,
-                hoverOffset: 4
-            }]
-        }
-    });
-    }
+		// Hàm vẽ biểu đồ
+		function drawChart() {
+			var labels = $scope.chartData.map(function(item) {
+				return item[1].toString(); // Hoặc sử dụng String(item[0]) để chắc chắn có kiểu chuỗi
+			});
+			var values = $scope.chartData.map(function(item) {
+				return item[0];
+			});
+
+			// Sử dụng thư viện vẽ biểu đồ (ví dụ: Chart.js)
+			var ctx = document.getElementById('myPieChart').getContext('2d');
+			var myChart = new Chart(ctx, {
+				type: 'pie',
+				data: {
+					labels: labels,
+					datasets: [{
+						label: 'Sample Data',
+						data: values,
+						backgroundColor: pieChartColors,
+						hoverOffset: 4
+					}]
+				}
+			});
+		}
 	}
-    
+
 	$scope.auto();
 	$scope.auto2();
 });
@@ -463,19 +506,19 @@ app.controller('chartCtrl', function($scope, $http) {
 app.controller('voucherCtrl', function($scope, $http) {
 	$scope.Voucher = {
 		id: null,
-		codevoucher:null,
-		percent:null,
-		startvoucher:new Date(),
-		endvoucher:new Date(),
-		deletestatus:false,
-		list_product:[]
+		codevoucher: null,
+		percent: null,
+		startvoucher: new Date(),
+		endvoucher: new Date(),
+		deletestatus: false,
+		list_product: []
 	};
-	$scope.listvoucher=[];
+	$scope.listvoucher = [];
 
-    $scope.updateVoucher = function() {
-    	$scope.Voucher.startvoucher = $scope.formatDate($scope.Voucher.startvoucher);
-        $scope.Voucher.endvoucher = $scope.formatDate($scope.Voucher.endvoucher);
-        console.log($scope.Voucher);
+	$scope.updateVoucher = function() {
+		$scope.Voucher.startvoucher = $scope.formatDate($scope.Voucher.startvoucher);
+		$scope.Voucher.endvoucher = $scope.formatDate($scope.Voucher.endvoucher);
+		console.log($scope.Voucher);
 		$http.post("/admin/api/savevoucher", $scope.Voucher).then(function(response) {
 			$scope.loadVoucher();
 			$scope.editvoucher(null);
@@ -484,18 +527,18 @@ app.controller('voucherCtrl', function($scope, $http) {
 		});
 
 	};
-    
-	$scope.editvoucher =function(voucher){
-				if(voucher==null){
-					$scope.Voucher = voucher;
-					}else{
-						voucher.startvoucher = new Date(voucher.startvoucher);
-						voucher.endvoucher = new Date(voucher.endvoucher);
-						  $scope.Voucher = voucher;
-						}
+
+	$scope.editvoucher = function(voucher) {
+		if (voucher == null) {
+			$scope.Voucher = voucher;
+		} else {
+			voucher.startvoucher = new Date(voucher.startvoucher);
+			voucher.endvoucher = new Date(voucher.endvoucher);
+			$scope.Voucher = voucher;
+		}
 	}
 
-    $scope.deleteVoucher = function(voucher) {
+	$scope.deleteVoucher = function(voucher) {
 		$scope.editvoucher(voucher);
 		$http.post('/admin/api/deletevoucher', $scope.Voucher).then(function(response) {
 			// Xử lý phản hồi từ server sau khi xóa thành công.
@@ -507,7 +550,7 @@ app.controller('voucherCtrl', function($scope, $http) {
 		});
 	};
 
-    $scope.restoreVoucher = function(voucher) {
+	$scope.restoreVoucher = function(voucher) {
 
 		$http.post('/admin/api/restorevoucher', voucher).then(function(response) {
 			// Xử lý phản hồi từ server sau khi xóa thành công.
@@ -519,7 +562,7 @@ app.controller('voucherCtrl', function($scope, $http) {
 		});
 	};
 
-    $scope.loadVoucher = function() {
+	$scope.loadVoucher = function() {
 		$http.get('/admin/api/getallvoucher')
 			.then(function(response) {
 				$scope.listvoucher = response.data;
@@ -529,7 +572,7 @@ app.controller('voucherCtrl', function($scope, $http) {
 			});
 	};
 
-    $scope.loadVoucherdelete = function() {
+	$scope.loadVoucherdelete = function() {
 		$http.get('/admin/api/getallvoucherdeleted')
 			.then(function(response) {
 				$scope.listvoucher = response.data;
@@ -539,7 +582,7 @@ app.controller('voucherCtrl', function($scope, $http) {
 			});
 	};
 
-    $scope.changetable = () => {
+	$scope.changetable = () => {
 		if ($scope.tablecheck == true) {
 			$scope.loadVoucherdelete();
 		} else {
@@ -547,18 +590,18 @@ app.controller('voucherCtrl', function($scope, $http) {
 		}
 	}
 
-    $scope.formatDate = function (date) {
-        var day = date.getDate();
-        var month = date.getMonth() + 1; // Month is zero-based
-        var year = date.getFullYear();
+	$scope.formatDate = function(date) {
+		var day = date.getDate();
+		var month = date.getMonth() + 1; // Month is zero-based
+		var year = date.getFullYear();
 
-        // Ensure two digits for day and month
-        day = day < 10 ? '0' + day : day;
-        month = month < 10 ? '0' + month : month;
+		// Ensure two digits for day and month
+		day = day < 10 ? '0' + day : day;
+		month = month < 10 ? '0' + month : month;
 
-        return year + '-' + month + '-' + day;
-    };
+		return year + '-' + month + '-' + day;
+	};
 
-    $scope.loadVoucher();
+	$scope.loadVoucher();
 });
 

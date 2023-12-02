@@ -26,4 +26,9 @@ public interface Payment_history_DAO extends JpaRepository<Payment_history, Inte
 			+ "group by MONTH(Payment_history.TimePayment)\r\n"
 			+ "order by MONTH(Payment_history.TimePayment) asc",nativeQuery = true )
 	public List<Object> get_chart_count_product_month_where(Integer year);
+	
+	@Query(value = "UPDATE      Payment_history\r\n"
+			+ "SET                StatusPayment = ?1\r\n"
+			+ "WHERE        (Id_product_account = ?2)",nativeQuery = true)
+	public void set_payment_history_statusPayment(String trangthai,Integer idpayment);
 }

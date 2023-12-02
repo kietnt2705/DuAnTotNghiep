@@ -25,7 +25,6 @@ public class Accounts implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer	idAccount;
-	String username;
 	String email;
 	String passwordhashed;
 	String fullname;
@@ -33,7 +32,6 @@ public class Accounts implements Serializable{
 	String phonenumber;
 	Boolean gender;
 	Boolean role;
-	String profilepicture;
 	Boolean deletestatus = true;
 	
 	@JsonIgnore

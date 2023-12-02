@@ -32,7 +32,7 @@ public class Voucher implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 	String codevoucher;
-	@Column(name = "[Percent]")
+	@Column(name = "Percents")
 	Float percent;
 	
 	@Temporal(TemporalType.DATE)

@@ -11,7 +11,6 @@
     <meta name="author" content="">
 
     <title>Admin - Quán lí đơn hàng</title>
-
     <!-- Custom fonts for this template -->
     <link th:href="@{/Admin/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
     <link
@@ -124,6 +123,12 @@
                         <div class="card-header py-3 row">
                             <h6 class="m-0 font-weight-bold text-primary col align-self-center">Đơn hàng</h6>
                             <div class="col align-self-center form-inline input-group w-25">
+                                <button style="background-color: slategray;" class="btn m-1 text-white" ng-click="setordersstatus('')">Chờ xử lý</button>
+                                <button style="background-color: darkturquoise;" class="btn m-1 text-white" ng-click="setordersstatus('danggiao')">Đang giao</button>
+                                <button style="background-color: darkgreen;" class="btn m-1 text-white" ng-click="setordersstatus('dagiao')">Đã giao</button>
+                                <button style="background-color: darkred;" class="btn m-1 text-white" ng-click="setordersstatus('huybo')">Đã hủy</button>
+                            </div>
+                            <div class="col align-self-center form-inline input-group w-25">
 								<input ng-model="findadorder" type="text" class="form-control">
 								<div class="fw-bolder text-dark input-group-append"><div class="input-group-text" ng-model="findadproduct">search</div></div>
 							</div>
@@ -133,6 +138,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead class="text-center">
                                         <tr>
+                                        <th><input type="checkbox" ng-model="checkall" ng-change="checkalllist()"></th>
                                             <th>Tên khách hàng</th>
                                             <th>Số điện thoại</th>
                                             <th>Tên sản phẩm</th>
@@ -141,10 +147,12 @@
                                             <th>Thành tiền</th>
                                             <th>Thời gian thanh toán</th>
                                             <th>địa chỉ</th>
+                                            <th>Trạng thái</th>
                                         </tr>
                                     </thead>
                                     <tbody class="text-center">
                                         <tr ng-repeat="item in listorders | filter : findadorder">
+                                        <td><input type="checkbox" ng-checked="checkall" ng-model="item.checked" ng-change="toggleItem(item)"></td>
                                         	<td>{{item.account.fullname}}</td>
                                         	<td>{{item.account.phonenumber}}</td>
                                         	<td>{{item.product.name}}</td>
@@ -153,6 +161,7 @@
                                         	<td>{{item.product.price * item.quantity | number:-3}} Đ</td>
                                         	<td>{{item.timepayment | date : "dd-MM-yyyy"}}</td>
                                         	<td>{{item.address}}</td>
+                                        	<td><button ng-style="trangthai(item.statuspayment).style" class="btn text-white" disabled>{{trangthai(item.statuspayment).value}}</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -166,15 +175,7 @@
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+
 
         </div>
         <!-- End of Content Wrapper -->
