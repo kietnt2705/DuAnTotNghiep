@@ -1,17 +1,18 @@
 package com.project.bean;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,21 +25,20 @@ import lombok.NoArgsConstructor;
 public class Accounts implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer	idAccount;
+	Integer	id;
 	String email;
-	String passwordhashed;
+	byte[] passwordhashed;
 	String fullname;
 	String address;
 	String phonenumber;
+	@Temporal(TemporalType.DATE)
+	LocalDate birthday;
 	Boolean gender;
 	Boolean role;
-	Boolean deletestatus = true;
+	Boolean deletestatus = false;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "account")
-	List<Payment_history> list_payment_history;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "account2")
-	List<Shopping_cart> list_Shopping_cart;
+	List<Orders> list_orders;
+
 }

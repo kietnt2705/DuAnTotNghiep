@@ -27,5 +27,5 @@ public interface VoucherDAO extends JpaRepository<Voucher, Integer>{
 			+ "SET                DeleteStatus = 0\r\n"
 			+ "WHERE        (Id = ?1)",nativeQuery = true)
 	public void restore_Voucher2(Integer voucherid);
-	
+
 }

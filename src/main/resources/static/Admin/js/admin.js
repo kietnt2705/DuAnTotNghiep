@@ -5,7 +5,7 @@ app.controller('adproCtrl', function($scope, $http) {
 	$scope.listproduct = [];
 	$scope.lisypeoductype = [];
 	$scope.Products = {
-		idProduct: null,
+		id: null,
 		name: '',
 		price: 0.0,
 		quantity: 0,
@@ -13,10 +13,8 @@ app.controller('adproCtrl', function($scope, $http) {
 		contents: '',
 		deletestatus: false,
 		datecreate: new Date(),
-		product_type: {},
-		list_Shopping_cart2: null,
-		list_Payment_history: null,
-		voucher: {}
+		categories: {},
+		list_order_detail: null
 	};
 
 	(
@@ -34,26 +32,14 @@ app.controller('adproCtrl', function($scope, $http) {
 		}
 	)
 
-	/* $scope.createProduct = function () {
-		 $http.post('/admin/api/createproduct', $scope.Products)
-			 .then(function (response) {
-				 // Handle the response data if needed
-				 console.log(response.data);
-			 }, function (error) {
-				 // Xử lý lỗi nếu yêu cầu xóa không thành công.
-				 console.error(error);
-			 });
-			 loadproduct();
-	 };*/
 
 	$scope.updateProduct = function() {
 		$http.post("/admin/api/updateproduct", $scope.Products).then(function(response) {
 			$scope.loadproduct();
 			$scope.editproduct(null);
 		}, function(response) {
-			console.log(response);
 		});
-
+	$scope.upload();
 	};
 
 	$scope.upload = function() {
@@ -138,26 +124,32 @@ app.controller('adproCtrl', function($scope, $http) {
 			$scope.loadproduct();
 		}
 	}
+	
+	
+	
+	$scope.orderby = function(nameny){
+		$scope.nameorderby =nameny;
+	}
+	
 });
 
 app.controller('accountCtrl', function($scope, $http) {
 	$scope.Account = {
-		idAccount: null,
+		id: null,
 		email: '',
-		passwordhashed: '',
 		fullname: '',
 		address: '',
 		phonenumber: '',
+		birthday:new Date(),
 		gender: false,
 		role: false,
 		deletestatus: false,
-		list_payment_history: null,
-		list_Shopping_cart: null
+		list_orders:null
 	};
 
 	$scope.listaccount = [];
 
-	$scope.updateAccount = function() {
+	$scope.updateAccount = function(){ 
 		$http.post("/admin/api/updateaccount", $scope.Account).then(function(response) {
 			$scope.loadaccount();
 			$scope.editaccount(null);
@@ -210,6 +202,7 @@ app.controller('accountCtrl', function($scope, $http) {
 
 	$scope.editaccount = function(account) {
 		$scope.Account = account;
+		$scope.Account.birthday = new Date($scope.Account.birthday);
 	};
 
 	$scope.changetable = () => {
@@ -220,12 +213,16 @@ app.controller('accountCtrl', function($scope, $http) {
 			$scope.loadaccount();
 		}
 	}
-
+	
+	$scope.orderby = function(nameny){
+		$scope.nameorderby =nameny;
+	}
+	
 });
 
 app.controller('orderCtrl', function($scope, $http) {
 	$scope.listorders = [];
-	$scope.listitems = [];
+	$scope.listitems = null;
 	$scope.loadorders = function() {
 		$http.get('/admin/api/getorders')
 			.then(function(response) {
@@ -236,15 +233,39 @@ app.controller('orderCtrl', function($scope, $http) {
 			});
 	};
 	
-	$scope.setordersstatus = function(nametrangthai) {
+	$scope.opendetailorder = function(idorder) {
+
+		$http.post("/admin/api/getorderdetail", idorder)
+		.then(function(response) {
+			console.log(response);
+			sessionStorage.setItem('order', JSON.stringify(response.data.order));
+                    sessionStorage.setItem('orderdetail', JSON.stringify(response.data.orderdetail));
+                    window.location.href = '/trangchu/detail';
+			/*window.location.href = '/trangchu/detail';*/
+		});
+	};
+	
+	$scope.setordersstatus = function(nametrangthai) {	
+		if($scope.listitems==null){
+			if(nametrangthai=='huybo'){
+				$scope.findadorder = 'huybo';
+			}else if(nametrangthai=='danggiao'){
+				$scope.findadorder = 'danggiao';
+			}else if(nametrangthai=='dagiao'){
+				$scope.findadorder = 'dagiao';
+			}else{
+				$scope.findadorder = '';
+			}
+		}else{
 		for (var i = 0; i < $scope.listitems.length; i++) {
-				$scope.listitems[i].statuspayment =nametrangthai;
+				$scope.listitems[i].statusorder =nametrangthai;
 			}
 		$http.post("/admin/api/setorderstatus", $scope.listitems)
 		.then(function(response) {
 			$scope.loadorders();
-			$scope.listitems = [];
+			$scope.listitems = null;
 		});
+		}
 	};
 	
 	$scope.trangthai = function(trangthai) {
@@ -271,7 +292,7 @@ app.controller('orderCtrl', function($scope, $http) {
 			}
 		} else{
 			return {
-				value: 'Chờ xác nhận',
+				value: 'Chờ xử lý',
 				style: {
 					'background-color': 'slategray'
 				}
@@ -303,12 +324,66 @@ app.controller('orderCtrl', function($scope, $http) {
 			}
 			$scope.listitems.splice(index, 1);
 		}
-		console.log($scope.listitems);
 	};
 
 	$scope.isChecked = function(item) {
 		return !$scope.checkall || item.checked;
 	};
+	
+	$scope.orderby = function(nameny){
+		$scope.nameorderby =nameny;
+	}
+	
+});
+
+app.controller('detailCtrl', function($scope, $http) {
+	$scope.autoget= function(){
+		$scope.khachhang = JSON.parse(sessionStorage.getItem('order'));
+		$scope.danhsachsanpham = JSON.parse(sessionStorage.getItem('orderdetail'));
+	}
+	
+	$scope.calculateTotalAmount = function () {
+                var totalAmount = 0;
+                
+                angular.forEach($scope.danhsachsanpham, function (item) {
+                    totalAmount += item.quantity * item.product.price;
+                });
+                return totalAmount;
+            };
+	
+	$scope.trangthai = function(trangthai) {
+		if (trangthai == 'huybo') {
+			return {
+				value: 'Hủy bỏ',
+				style: {
+					'background-color': 'darkred'
+				}
+			}
+		} else if (trangthai == 'danggiao') {
+			return {
+				value: 'Đang giao',
+				style: {
+					'background-color': 'darkturquoise'
+				}
+			}
+		} else if (trangthai == 'dagiao') {
+			return {
+				value: 'Đã giao',
+				style: {
+					'background-color': 'darkgreen'
+				}
+			}
+		} else{
+			return {
+				value: 'Chờ xử lý',
+				style: {
+					'background-color': 'slategray'
+				}
+			}
+		}
+	}
+	
+	$scope.autoget();
 });
 
 app.controller('staCtrl', function($scope, $http) {
@@ -319,7 +394,7 @@ app.controller('staCtrl', function($scope, $http) {
 	};
 
 	$scope.countstatic = function() {
-		$http.get('/admin/api/count_statistical')
+		$http.get('/admin/api/chart/admin/api/count_statistical')
 			.then(function(response) {
 				$scope.count_number = response.data;
 			}, function(error) {
@@ -358,7 +433,7 @@ app.controller('chartCtrl', function($scope, $http) {
 		$scope.chartData = [];
 
 		// Thực hiện GET request đến API
-		$http.get('/admin/api/chart/countproductyear')
+		$http.get('/admin/api/chart/productpricemonth')
 			.then(function(response) {
 				// Xử lý dữ liệu nhận được từ API
 				var rawData = response.data;
@@ -378,10 +453,10 @@ app.controller('chartCtrl', function($scope, $http) {
 		// Hàm vẽ biểu đồ
 		function drawChart() {
 			var labels = $scope.chartData.map(function(item) {
-				return item[1].toString(); // Hoặc sử dụng String(item[0]) để chắc chắn có kiểu chuỗi
+				return item[0].toString(); // Hoặc sử dụng String(item[0]) để chắc chắn có kiểu chuỗi
 			});
 			var values = $scope.chartData.map(function(item) {
-				return item[0];
+				return item[1];
 			});
 
 			// Sử dụng thư viện vẽ biểu đồ (ví dụ: Chart.js)
@@ -456,7 +531,7 @@ app.controller('chartCtrl', function($scope, $http) {
 		$scope.chartData = [];
 
 		// Thực hiện GET request đến API
-		$http.get('/admin/api/chart/countproductmonthwhere')
+		$http.get('/admin/api/chart/productcountmonth')
 			.then(function(response) {
 				// Xử lý dữ liệu nhận được từ API
 				var rawData = response.data;
@@ -476,10 +551,10 @@ app.controller('chartCtrl', function($scope, $http) {
 		// Hàm vẽ biểu đồ
 		function drawChart() {
 			var labels = $scope.chartData.map(function(item) {
-				return item[1].toString(); // Hoặc sử dụng String(item[0]) để chắc chắn có kiểu chuỗi
+				return item[0].toString(); // Hoặc sử dụng String(item[0]) để chắc chắn có kiểu chuỗi
 			});
 			var values = $scope.chartData.map(function(item) {
-				return item[0];
+				return item[1];
 			});
 
 			// Sử dụng thư viện vẽ biểu đồ (ví dụ: Chart.js)
@@ -518,7 +593,6 @@ app.controller('voucherCtrl', function($scope, $http) {
 	$scope.updateVoucher = function() {
 		$scope.Voucher.startvoucher = $scope.formatDate($scope.Voucher.startvoucher);
 		$scope.Voucher.endvoucher = $scope.formatDate($scope.Voucher.endvoucher);
-		console.log($scope.Voucher);
 		$http.post("/admin/api/savevoucher", $scope.Voucher).then(function(response) {
 			$scope.loadVoucher();
 			$scope.editvoucher(null);
@@ -581,6 +655,16 @@ app.controller('voucherCtrl', function($scope, $http) {
 				console.error(error);
 			});
 	};
+	
+	$scope.autodeletevoucher = function(){
+		$http.get('/admin/api/autodeletevoucher')
+			.then(function(response) {
+				$scope.loadVoucher();
+			}, function(error) {
+				// Xử lý lỗi nếu yêu cầu xóa không thành công.
+				console.error(error);
+			});
+	}
 
 	$scope.changetable = () => {
 		if ($scope.tablecheck == true) {
@@ -601,7 +685,50 @@ app.controller('voucherCtrl', function($scope, $http) {
 
 		return year + '-' + month + '-' + day;
 	};
+	
+	$scope.autogeneratedidvoucher = function(length){
+		const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let randomCode = '';
 
-	$scope.loadVoucher();
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        randomCode += characters.charAt(randomIndex);
+    }
+   return randomCode;
+	}
+	
+	$scope.macotrungkhong = function(code){
+		let list;
+		$http.get('/admin/api/getallvoucherforgenerated')
+			.then(function(response) {
+				list = response.data;
+				for (let i = 0; i < list.length; i++) {
+        if (list[i].codevoucher === code) {
+            return true; // Mã trùng lặp
+        }
+    }
+    return false;	
+			}, function(error) {
+				// Xử lý lỗi nếu yêu cầu xóa không thành công.
+				console.error(error);
+			}); 
+		
+	}
+	
+	$scope.generatedvouchercodevoucher = function(){
+		let newCode;
+		
+    do {
+        newCode = $scope.autogeneratedidvoucher(7);
+    } while ($scope.macotrungkhong(newCode));
+
+    $scope.Voucher.codevoucher = newCode;
+	}
+	
+	$scope.orderby = function(nameny){
+		$scope.nameorderby =nameny;
+	}
+
+	$scope.autodeletevoucher();
 });
 

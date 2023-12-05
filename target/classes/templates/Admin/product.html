@@ -115,7 +115,7 @@
 							<form >
 								<div class="card-body">
 									<div class="form-group text-center">
-										<img id="imageInput" th:src="@{\Admin\img\{{Products.image}}}" style="min-width: 100px; min-height: 100px; max-width: 500px; max-height: 500px; object-fit: scale-down;" alt="">
+										<img id="imageInput" th:src="@{\assets\img\{{Products.image}}}" style="min-width: 100px; min-height: 100px; max-width: 500px; max-height: 500px; object-fit: scale-down;" alt="">
 									</div>
 									<div class="form-group">
 										<div class="input-group">
@@ -129,19 +129,14 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="exampleInputEmail1">Mã sản phẩm</label> <input
-											type="input" class="form-control" id="exampleInputEmail1"
-											placeholder="Nhập mã sản phẩm" ng-model="Products.idProduct" disabled>
-									</div>
-									<div class="form-group">
 										<label for="exampleInputEmail1">Tên sản phẩm</label> <input
 											type="input" class="form-control" id="exampleInputEmail1"
 											placeholder="Nhập tên sản phẩm" ng-model="Products.name">
 									</div>
 									<div class="form-group">
 										<label for="exampleInputEmail1">Loại sản phẩm</label> 
-										<select ng-model="Products.product_type" 
-			ng-options="type as type.nametype for type in lisypeoductype track by type.idType">
+										<select ng-model="Products.categories" 
+			ng-options="type as type.name for type in lisypeoductype track by type.id">
 	</select>
 	
 	
@@ -170,7 +165,7 @@
 	
 								<div class="card-footer text-center">
 									<button class="btn btn-primary"
-										ng-click="updateProduct();upload()">Submit</button>
+										ng-click="updateProduct()">Submit</button>
 								</div>
 							</form>
 						</div>
@@ -200,26 +195,26 @@
 									cellspacing="0">
 									<thead>
 										<tr>
-											<th>Mã sản phẩm</th>
-											<th>Tên sản phẩm</th>
-											<th>Giá</th>
-											<th>Số lượng</th>
-											<th>Ảnh</th>
-											<th>Mô tả</th>
-											<th>Loại</th>
-											<th>Ngày tạo</th>
+											<th>STT</th>
+											<th ng-click="orderby('name')">Tên sản phẩm</th>
+											<th ng-click="orderby('price')">Giá</th>
+											<th ng-click="orderby('quantity')">Số lượng</th>
+											<th ng-click="orderby('image')">Ảnh</th>
+											<th ng-click="orderby('contents')">Mô tả</th>
+											<th ng-click="orderby('categories.name')">Loại</th>
+											<th ng-click="orderby('datecreate')">Ngày tạo</th>
 											<th colspan="2">Tương tác</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr ng-repeat="item in listproduct | filter : findadproduct">
-											<td>{{item.idProduct}}</td>
+										<tr ng-repeat="item in listproduct | filter : findadproduct | orderBy:nameorderby">
+											<td>{{$index+1}}</td>
 											<td>{{item.name}}</td>
-											<td>{{item.price}}</td>
+											<td>{{item.price | number:'3'}}</td>
 											<td>{{item.quantity}}</td>
 											<td>{{item.image}}</td>
 											<td>{{item.contents}}</td>
-											<td>{{item.product_type.nametype}}</td>
+											<td>{{item.categories.name}}</td>
 											<td>{{item.datecreate}}</td>
 											<td><button class="btn btn-primary"
 									ng-click="tablecheck==true?restoreProduct(item):editproduct(item)">{{tablecheck==true?'Restore':'Edit'}}</button></td>
@@ -229,6 +224,13 @@
 									</tbody>
 								</table>
 							</div>
+						</div>
+						<div class="card-body">
+							<div>
+        <button ng-disabled="currentPage == 1" ng-click="prevPage()">Prev</button>
+        <span>Page {{currentPage}} of {{totalPages}}</span>
+        <button ng-disabled="currentPage == totalPages || totalPages === 0" ng-click="nextPage()">Next</button>
+    </div>
 						</div>
 					</div>
 

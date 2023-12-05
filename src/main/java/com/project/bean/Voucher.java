@@ -36,14 +36,14 @@ public class Voucher implements Serializable{
 	Float percent;
 	
 	@Temporal(TemporalType.DATE)
-	Date startvoucher = new Date();
+	Date startvoucher;
 	
 	@Temporal(TemporalType.DATE)
-	Date endvoucher = new Date();
+	Date endvoucher;
 	
 	Boolean deletestatus =false;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "voucher")
-	List<Products> list_product;
+	List<Orders> list_order;
 }

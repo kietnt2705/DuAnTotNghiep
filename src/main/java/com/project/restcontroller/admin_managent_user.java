@@ -1,5 +1,6 @@
 package com.project.restcontroller;
 
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,19 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.bean.Accounts;
 import com.project.bean.Products;
-import com.project.dao.Account_DAO;
+import com.project.dao.AccountDAO;
 
 @RestController
 public class admin_managent_user {
 	@Autowired
-	Account_DAO ac_dao;
+	AccountDAO ac_dao;
 	
 	@PostMapping("/admin/api/updateaccount")
-	public ResponseEntity<Accounts> updateaccount(@RequestBody Accounts account )  {
-			try {
-				ac_dao.save(account);
+	public ResponseEntity<?> updateaccount(@RequestBody Accounts account )  {
+			try {			
+				 ac_dao.save(account); 
 			} catch (Exception e) {
-//				 return ResponseEntity.ok(e); 
+				 return ResponseEntity.ok(e); 
 			}
 		return ResponseEntity.ok(account);
 	}
@@ -32,7 +33,7 @@ public class admin_managent_user {
 	@PostMapping("/admin/api/deleteaccount")
 	public ResponseEntity<Accounts> deleteaccount(@RequestBody Accounts account) {
 		try {
-			ac_dao.delete_Account(account.getIdAccount());
+			ac_dao.delete_Account(account.getId());
 		} catch (Exception e) {
 			ResponseEntity.ok(e);
 		}
@@ -42,7 +43,7 @@ public class admin_managent_user {
 	@PostMapping("/admin/api/restoreaccount")
 	public ResponseEntity<Accounts> restoreaccount(@RequestBody Accounts account) {
 		try {
-			ac_dao.restore_Account(account.getIdAccount());
+			ac_dao.restore_Account(account.getId());
 		} catch (Exception e) {
 			ResponseEntity.ok(e);
 		}
@@ -50,12 +51,12 @@ public class admin_managent_user {
 	}
 	
 	@GetMapping("/admin/api/loadaccount")
-	public List<Accounts> loadproduct() {
+	public List<Accounts> loadaccount() {
 		return ac_dao.getAllAccounts();
 	}
 	
 	@GetMapping("/admin/api/loadaccount_delete")
-	public List<Accounts> loadproduct_delete() {
+	public List<Accounts> loadaccount_delete() {
 		return ac_dao.getAllAccounts_delete();
 	}
 }

@@ -10,6 +10,7 @@
 <title>Admin - Quán lí sản phẩm</title>
 <link href="https://cdn.jsdelivr.net/npm/fastbootstrap@2.0.0/dist/css/fastbootstrap.min.css" rel="stylesheet" integrity="sha256-EkS1lBVeD1Dv7HGBICgtEPKeIz4ffoKbo5gRiPvD6/8=" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/fastbootstrap@2.0.0/dist/js/fastbootstrap.min.js" integrity="sha256-o0tNXN7ia0O9G0qNbrzBkEEiQTv+GeW5EO4LjnfDkZk=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 <!-- Custom fonts for this template -->
 <link th:href="@{/Admin/vendor/fontawesome-free/css/all.min.css}"
 	rel="stylesheet" type="text/css">
@@ -120,14 +121,15 @@
 						
 							<form >
 								<div class="card-body">
-									<div class="form-group">
-										<label for="exampleInputEmail1">Mã khuyến mãi</label> <input
-											type="input" class="form-control" id="exampleInputEmail1"
-											placeholder="Mã khuyến mãi" ng-model="Voucher.id" disabled>
-									</div>
-                                    <div class="form-group">
+                                    <div class="form-group ">
 										<label for="exampleInputEmail1">Code khuyến mãi</label> 
+                                        <div class="input-group">
                                         <input type="input" class="form-control" placeholder="Code khuyến mãi" ng-model="Voucher.codevoucher">
+                                        <div class="input-group-append">
+    <span class="input-group-text" ng-click="generatedvouchercodevoucher()"><i class="bi bi-arrow-repeat"></i></span>
+  </div>
+                                        </div>
+                                        
 									</div>
                                     <div class="form-group">
 										<label for="exampleInputEmail1">Giá trị khuyến mãi</label> 
@@ -175,19 +177,19 @@
 									cellspacing="0">
 									<thead>
 										<tr>
-											<th>Mã khuyến mãi</th>
-											<th>Code khuyến mãi</th>
-											<th>Giá trị</th>
-											<th>Ngày khuyến mãi</th>
-											<th>Ngày hết hạn</th>
+											<th>STT</th>
+											<th ng-click="orderby('codevoucher')">Code khuyến mãi</th>
+											<th ng-click="orderby('percent')">Giá trị</th>
+											<th ng-click="orderby('startvoucher')">Ngày khuyến mãi</th>
+											<th ng-click="orderby('endvoucher')">Ngày hết hạn</th>
 											<th colspan="2">Tương tác</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr ng-repeat="item in listvoucher | filter : findadproduct">
-											<td>{{item.id}}</td>
+										<tr ng-repeat="item in listvoucher | filter : findadproduct | orderBy:nameorderby">
+											<td>{{$index+1}}</td>
 											<td>{{item.codevoucher}}</td>
-											<td>{{item.percent*100}} %</td>
+											<td>{{item.percent | number: -3}} đ</td>
 											<td>{{item.startvoucher | date: "dd-MM-yyyy"}}</td>
 											<td>{{item.endvoucher | date: "dd-MM-yyyy"}}</td>
 											<td><button class="btn btn-primary"
@@ -246,5 +248,18 @@
 	<!-- Bootstrap core JavaScript-->
 	<script th:src="@{/Admin/vendor/jquery/jquery.min.js}"></script>
 	<script th:src="@{/Admin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script th:src="@{/Admin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script th:src="@{/Admin/js/sb-admin-2.min.js}"></script>
+	<!-- Page level plugins -->
+	<script th:src="@{/Admin/vendor/datatables/jquery.dataTables.min.js}"></script>
+	<script
+		th:src="@{/Admin/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+
+	<!-- Page level custom scripts -->
+	<script th:src="@{/Admin/js/demo/datatables-demo.js}"></script>
 </body>
 </html>

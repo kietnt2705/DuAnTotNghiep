@@ -1,12 +1,9 @@
 package com.project.bean;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -31,33 +28,24 @@ import lombok.NoArgsConstructor;
 public class Products implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer idProduct;
+	Integer id;
 	String name;
 	Float price;
 	Integer quantity;
 	String image;
 	String contents;
-	Boolean deletestatus = true;
+	Boolean deletestatus = false;
 	 
 	@Temporal(TemporalType.DATE)
-	@JsonFormat(pattern = "dd-MM-yyyy")
-	Date datecreate = new Date();
+	LocalDate datecreate;
 	
 	
 	@ManyToOne
-	@JoinColumn(name = "type_id")
-	Product_type Product_type;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "product2")
-	List<Shopping_cart> list_Shopping_cart2;
+	@JoinColumn(name = "categoryid")
+	Categories categories;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
-	List<Payment_history> list_Payment_history;
-	
-	@ManyToOne
-	@JoinColumn(name = "voucher_id")
-	Voucher voucher;
+	List<Orderdetail> listOrderDetail;
 	
 }

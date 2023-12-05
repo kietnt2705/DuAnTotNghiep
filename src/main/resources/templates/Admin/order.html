@@ -139,29 +139,24 @@
                                     <thead class="text-center">
                                         <tr>
                                         <th><input type="checkbox" ng-model="checkall" ng-change="checkalllist()"></th>
-                                            <th>Tên khách hàng</th>
-                                            <th>Số điện thoại</th>
-                                            <th>Tên sản phẩm</th>
-                                            <th>Giá</th>
-                                            <th>Số lượng</th>
-                                            <th>Thành tiền</th>
-                                            <th>Thời gian thanh toán</th>
-                                            <th>địa chỉ</th>
-                                            <th>Trạng thái</th>
+                                            <th ng-click="orderby('account.fullname')">Tên khách hàng</th>
+                                            <th ng-click="orderby('account.phonenumber')">Số điện thoại</th>
+                                            <th ng-click="orderby('account.email')">Email</th>
+                                            <th ng-click="orderby('timeorder')">Thời gian thanh toán</th>
+                                            <th ng-click="orderby('statusorder')">Trạng thái</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody class="text-center">
-                                        <tr ng-repeat="item in listorders | filter : findadorder">
+                                        <tr ng-repeat="item in listorders | filter : findadorder | orderBy:nameorderby">
                                         <td><input type="checkbox" ng-checked="checkall" ng-model="item.checked" ng-change="toggleItem(item)"></td>
                                         	<td>{{item.account.fullname}}</td>
                                         	<td>{{item.account.phonenumber}}</td>
-                                        	<td>{{item.product.name}}</td>
-                                        	<td>{{item.product.price | number:-3}} Đ</td>
-                                        	<td>{{item.quantity }}</td>
-                                        	<td>{{item.product.price * item.quantity | number:-3}} Đ</td>
-                                        	<td>{{item.timepayment | date : "dd-MM-yyyy"}}</td>
-                                        	<td>{{item.address}}</td>
-                                        	<td><button ng-style="trangthai(item.statuspayment).style" class="btn text-white" disabled>{{trangthai(item.statuspayment).value}}</button></td>
+                                        	<td>{{item.account.email}}</td>
+                                        	<td>{{item.timeorder | date : "dd-MM-yyyy"}}</td>
+                                        	<td><button ng-style="trangthai(item.statusorder).style" class="btn text-white col-9" disabled>{{trangthai(item.statusorder).value}}</button></td>
+                                        	<td><a  ng-click="opendetailorder(item.id)" class="btn btn-secondary">></a>
+                                        	</td>
                                         </tr>
                                     </tbody>
                                 </table>

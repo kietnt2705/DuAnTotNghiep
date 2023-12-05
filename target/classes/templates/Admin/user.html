@@ -123,25 +123,21 @@
                     <div class="card card-primary mx-auto col-8 p-0">
                         <form>
                             <div class="card-body">
-                            <div class="form-group">
-                                    <label for="exampleInputEmail1">ID</label>
-                                    <input ng-model="Account.idAccount" type="input" class="form-control" id="exampleInputEmail1" disabled>
-                                </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Email</label>
                                     <input ng-model="Account.email" type="email" class="form-control" id="exampleInputPassword1"
                                         placeholder="Nhập Email">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Mật khẩu</label>
-                                    <input ng-model="Account.passwordhashed" type="input" class="form-control" id="exampleInputPassword1"
-                                        placeholder="Nhập Mật khẩu">
-                                </div>
-                                <div class="form-group">
                                     <label for="exampleInputPassword1">Họ tên</label>
                                     <input ng-model="Account.fullname" type="input" class="form-control" id="exampleInputPassword1"
                                         placeholder="Nhập họ tên">
                                 </div>
+                                <div class="form-group">
+										<label for="exampleInputEmail1">Ngày sinh</label> <input type="date"
+											 class="form-control" id="exampleInputEmail1"
+											placeholder="Nhập Ngày" ng-model="Account.birthday" >
+									</div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Địa chỉ</label>
                                     <input ng-model="Account.address" type="input" class="form-control" id="exampleInputPassword1"
@@ -193,7 +189,7 @@
                             </div>
 
                             <div class="card-footer text-center">
-                                <button ng-click="updateAccount(); upload()" type="submit" class="btn btn-primary">Submit</button>
+                                <button ng-click="updateAccount()" type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -221,23 +217,25 @@
                                 <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Email</th>
-                                            <th>Mật khẩu</th>
-                                            <th>Họ tên</th>
-                                            <th>Địa chỉ</th>
-                                            <th>Số điện thoại</th>
-                                            <th>Giới tính</th>
-                                            <th>Vai trò</th>
+                                            <th>STT</th>
+                                            <th ng-click="orderby('email')">Email</th>
+                                            <th ng-click="orderby('passwordhashed')">Mật khẩu</th>
+                                            <th ng-click="orderby('fullname')">Họ tên</th>
+                                            <th ng-click="orderby('birthday')">Ngày sinh</th>
+                                            <th ng-click="orderby('address')">Địa chỉ</th>
+                                            <th ng-click="orderby('phonenumber')">Số điện thoại</th>
+                                            <th ng-click="orderby('gender')">Giới tính</th>
+                                            <th ng-click="orderby('role')">Vai trò</th>
                                             <th colspan="2">Tương tác</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="item in listaccount | filter : findadaccount">
-                                            <td>{{item.idAccount}}</td>
+                                        <tr ng-repeat="item in listaccount | filter : findadaccount | orderBy:nameorderby">
+                                            <td>{{$index}}</td>
                                             <td>{{item.email}}</td>
-                                            <td>{{item.passwordhashed}}</td>
+                                            <td>{{item.passwordhashed.substring(0,10)}}</td>
                                             <td>{{item.fullname}}</td>
+                                            <td>{{item.birthday| date:'dd-MM-yyyy'}}</td>
                                             <td>{{item.address}}</td>
                                             <td>{{item.phonenumber}}</td>
                                             <td>{{item.gender==true?'Male':'Female'}}</td>
