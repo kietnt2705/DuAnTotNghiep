@@ -222,7 +222,7 @@ app.controller('accountCtrl', function($scope, $http) {
 
 app.controller('orderCtrl', function($scope, $http) {
 	$scope.listorders = [];
-	$scope.listitems = null;
+	$scope.listitems = [];
 	$scope.loadorders = function() {
 		$http.get('/admin/api/getorders')
 			.then(function(response) {
