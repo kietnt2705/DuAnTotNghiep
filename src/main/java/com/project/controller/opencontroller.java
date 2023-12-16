@@ -43,8 +43,15 @@ public class opencontroller {
 		return "/User/index";
 	}
 	
-	@GetMapping("/test")
-	public String test() {
-		return "/Test/test";
+	@GetMapping("/admin/voucher")
+	public String adminvoucher(){
+		return "Admin/voucher";
 	}
+	
+	@GetMapping("/detail")
+	public String detail() {
+		return "Admin/detail";
+	}
+	
+	
 }

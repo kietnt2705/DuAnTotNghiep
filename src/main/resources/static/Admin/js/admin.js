@@ -237,7 +237,6 @@ app.controller('orderCtrl', function($scope, $http) {
 
 		$http.post("/admin/api/getorderdetail", idorder)
 		.then(function(response) {
-			console.log(response);
 			sessionStorage.setItem('order', JSON.stringify(response.data.order));
                     sessionStorage.setItem('orderdetail', JSON.stringify(response.data.orderdetail));
                     window.location.href = '/trangchu/detail';
@@ -247,15 +246,8 @@ app.controller('orderCtrl', function($scope, $http) {
 	
 	$scope.setordersstatus = function(nametrangthai) {	
 		if($scope.listitems==null){
-			if(nametrangthai=='huybo'){
-				$scope.findadorder = 'huybo';
-			}else if(nametrangthai=='danggiao'){
-				$scope.findadorder = 'danggiao';
-			}else if(nametrangthai=='dagiao'){
-				$scope.findadorder = 'dagiao';
-			}else{
-				$scope.findadorder = '';
-			}
+				$scope.findadorder = nametrangthai;
+			
 		}else{
 		for (var i = 0; i < $scope.listitems.length; i++) {
 				$scope.listitems[i].statusorder =nametrangthai;
@@ -269,30 +261,30 @@ app.controller('orderCtrl', function($scope, $http) {
 	};
 	
 	$scope.trangthai = function(trangthai) {
-		if (trangthai == 'huybo') {
+		if (trangthai == 'Đã hủy') {
 			return {
-				value: 'Hủy bỏ',
+				value: trangthai,
 				style: {
 					'background-color': 'darkred'
 				}
 			}
-		} else if (trangthai == 'danggiao') {
+		} else if (trangthai == 'Đang vận chuyển ') {
 			return {
-				value: 'Đang giao',
+				value: trangthai,
 				style: {
 					'background-color': 'darkturquoise'
 				}
 			}
-		} else if (trangthai == 'dagiao') {
+		} else if (trangthai == 'Đã giao') {
 			return {
-				value: 'Đã giao',
+				value: trangthai,
 				style: {
 					'background-color': 'darkgreen'
 				}
 			}
 		} else{
 			return {
-				value: 'Chờ xử lý',
+				value: trangthai,
 				style: {
 					'background-color': 'slategray'
 				}
@@ -352,30 +344,30 @@ app.controller('detailCtrl', function($scope, $http) {
             };
 	
 	$scope.trangthai = function(trangthai) {
-		if (trangthai == 'huybo') {
+		if (trangthai == 'Đã hủy') {
 			return {
-				value: 'Hủy bỏ',
+				value: trangthai,
 				style: {
 					'background-color': 'darkred'
 				}
 			}
-		} else if (trangthai == 'danggiao') {
+		} else if (trangthai == 'Đang vận chuyển ') {
 			return {
-				value: 'Đang giao',
+				value: trangthai,
 				style: {
 					'background-color': 'darkturquoise'
 				}
 			}
-		} else if (trangthai == 'dagiao') {
+		} else if (trangthai == 'Đã giao') {
 			return {
-				value: 'Đã giao',
+				value: trangthai,
 				style: {
 					'background-color': 'darkgreen'
 				}
 			}
 		} else{
 			return {
-				value: 'Chờ xử lý',
+				value: trangthai,
 				style: {
 					'background-color': 'slategray'
 				}
@@ -466,7 +458,7 @@ app.controller('chartCtrl', function($scope, $http) {
 				data: {
 					labels: labels,
 					datasets: [{
-						label: 'Sample Data',
+						label: 'Doanh thu',
 						data: values,
 						backgroundColor: barcolors,
 						borderColor: 'black',
@@ -564,7 +556,7 @@ app.controller('chartCtrl', function($scope, $http) {
 				data: {
 					labels: labels,
 					datasets: [{
-						label: 'Sample Data',
+						label: 'Số lượng',
 						data: values,
 						backgroundColor: pieChartColors,
 						hoverOffset: 4

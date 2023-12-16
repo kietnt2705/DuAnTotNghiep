@@ -123,10 +123,10 @@
                         <div class="card-header py-3 row">
                             <h6 class="m-0 font-weight-bold text-primary col align-self-center">Đơn hàng</h6>
                             <div class="col align-self-center form-inline input-group w-25">
-                                <button style="background-color: slategray;" class="btn m-1 text-white" ng-click="setordersstatus('')">Chờ xử lý</button>
-                                <button style="background-color: darkturquoise;" class="btn m-1 text-white" ng-click="setordersstatus('danggiao')">Đang giao</button>
-                                <button style="background-color: darkgreen;" class="btn m-1 text-white" ng-click="setordersstatus('dagiao')">Đã giao</button>
-                                <button style="background-color: darkred;" class="btn m-1 text-white" ng-click="setordersstatus('huybo')">Đã hủy</button>
+                                <button style="background-color: slategray;" class="btn m-1 text-white" ng-click="setordersstatus('Chờ xác nhận')">Chờ xác nhận</button>
+                                <button style="background-color: darkturquoise;" class="btn m-1 text-white" ng-click="setordersstatus('Đang vận chuyển')">Đang giao</button>
+                                <button style="background-color: darkgreen;" class="btn m-1 text-white" ng-click="setordersstatus('Đã giao')">Đã giao</button>
+                                <button style="background-color: darkred;" class="btn m-1 text-white" ng-click="setordersstatus('Đã hủy')">Đã hủy</button>
                             </div>
                             <div class="col align-self-center form-inline input-group w-25">
 								<input ng-model="findadorder" type="text" class="form-control">

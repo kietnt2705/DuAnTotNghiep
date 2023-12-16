@@ -25,11 +25,11 @@ public interface OrdersDAO extends JpaRepository<Orders, Integer>{
 	public List<Orders> getAllorders();
 	
 	@Query(value = "SELECT       MONTH(Orders.TimeOrder) as month,SUM(Products.Price*OrderDetail.Quantity) \r\n"
-			+ "FROM            OrderDetail INNER JOIN\r\n"
-			+ "                         Orders ON OrderDetail.OrderId = Orders.Id INNER JOIN\r\n"
-			+ "                         Products ON OrderDetail.ProductId = Products.Id\r\n"
-			+ "where year(Orders.TimeOrder)=?1\r\n"
-			+ "group by Orders.TimeOrder",nativeQuery = true)
+			+ "			FROM            OrderDetail INNER JOIN\r\n"
+			+ "			                         Orders ON OrderDetail.OrderId = Orders.Id INNER JOIN\r\n"
+			+ "			                         Products ON OrderDetail.ProductId = Products.Id\r\n"
+			+ "			where year(Orders.TimeOrder)=?1\r\n"
+			+ "			group by month(Orders.TimeOrder)",nativeQuery = true)
 	public List<Object> get_chart_total_price_month_where(Integer year);
 	
 	@Query(value = "SELECT       month(Orders.TimeOrder),SUM(OrderDetail.Quantity) \r\n"

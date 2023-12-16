@@ -219,7 +219,6 @@
                                         <tr>
                                             <th>STT</th>
                                             <th ng-click="orderby('email')">Email</th>
-                                            <th ng-click="orderby('passwordhashed')">Mật khẩu</th>
                                             <th ng-click="orderby('fullname')">Họ tên</th>
                                             <th ng-click="orderby('birthday')">Ngày sinh</th>
                                             <th ng-click="orderby('address')">Địa chỉ</th>
@@ -233,7 +232,6 @@
                                         <tr ng-repeat="item in listaccount | filter : findadaccount | orderBy:nameorderby">
                                             <td>{{$index}}</td>
                                             <td>{{item.email}}</td>
-                                            <td>{{item.passwordhashed.substring(0,10)}}</td>
                                             <td>{{item.fullname}}</td>
                                             <td>{{item.birthday| date:'dd-MM-yyyy'}}</td>
                                             <td>{{item.address}}</td>
